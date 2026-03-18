@@ -1,9 +1,9 @@
+import Markdown from "react-markdown";
 import { getRouteApi, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon } from "lucide-react";
 import { postQueries } from "@/api/posts";
 import { timeAgo } from "@/lib/date";
-import Markdown from "react-markdown";
 
 import { PostReactions } from "@/components/post-reactions/post-reactions";
 import { UserAvatar } from "@/components/user-avatar";
