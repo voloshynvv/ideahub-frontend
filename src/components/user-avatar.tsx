@@ -14,7 +14,6 @@ export const UserAvatar = ({ seed, ...props }: UserAvatarProps) => {
       size: 128,
     }).toDataUri();
   }, [seed]);
-  console.log(avatar);
 
   return (
     <Avatar {...props}>

@@ -15,9 +15,9 @@ export const Route = createRootRouteWithContext<RootContext>()({
 function RootLayout() {
   return (
     <Providers>
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-6">
         <Navbar />
-        <main>
+        <main className="flex flex-1 flex-col">
           <Outlet />
         </main>
       </div>

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './app/routes/__root'
 import { Route as IndexRouteImport } from './app/routes/index'
 import { Route as PostsNewRouteImport } from './app/routes/posts.new'
 import { Route as PostsIdRouteImport } from './app/routes/posts.$id'
+import { Route as PostsIdEditRouteImport } from './app/routes/posts_.$id.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const PostsIdRoute = PostsIdRouteImport.update({
   path: '/posts/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostsIdEditRoute = PostsIdEditRouteImport.update({
+  id: '/posts_/$id/edit',
+  path: '/posts/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/posts/$id': typeof PostsIdRoute
   '/posts/new': typeof PostsNewRoute
+  '/posts/$id/edit': typeof PostsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/posts/$id': typeof PostsIdRoute
   '/posts/new': typeof PostsNewRoute
+  '/posts/$id/edit': typeof PostsIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/posts/$id': typeof PostsIdRoute
   '/posts/new': typeof PostsNewRoute
+  '/posts_/$id/edit': typeof PostsIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts/$id' | '/posts/new'
+  fullPaths: '/' | '/posts/$id' | '/posts/new' | '/posts/$id/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts/$id' | '/posts/new'
-  id: '__root__' | '/' | '/posts/$id' | '/posts/new'
+  to: '/' | '/posts/$id' | '/posts/new' | '/posts/$id/edit'
+  id: '__root__' | '/' | '/posts/$id' | '/posts/new' | '/posts_/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostsIdRoute: typeof PostsIdRoute
   PostsNewRoute: typeof PostsNewRoute
+  PostsIdEditRoute: typeof PostsIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/posts_/$id/edit': {
+      id: '/posts_/$id/edit'
+      path: '/posts/$id/edit'
+      fullPath: '/posts/$id/edit'
+      preLoaderRoute: typeof PostsIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostsIdRoute: PostsIdRoute,
   PostsNewRoute: PostsNewRoute,
+  PostsIdEditRoute: PostsIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

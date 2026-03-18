@@ -4,15 +4,19 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon } from "lucide-react";
 import { postQueries } from "@/api/posts";
 import { timeAgo } from "@/lib/date";
+import { useCurrentUser } from "@/api/auth";
 
+import { buttonVariants } from "@/components/ui/button";
 import { PostReactions } from "@/components/post-reactions/post-reactions";
 import { UserAvatar } from "@/components/user-avatar";
+import { DeletePostButton } from "./delete-post-button";
 
 const routeApi = getRouteApi("/posts/$id");
 
 export const PostDetailsPage = () => {
   const { id } = routeApi.useParams();
   const { data: post } = useSuspenseQuery(postQueries.details(id));
+  const user = useCurrentUser();
 
   return (
     <div>
@@ -42,6 +46,20 @@ export const PostDetailsPage = () => {
               #tag
             </p>
           </div>
+
+          {user && user.id === post.user.id && (
+            <div className="flex items-center gap-2">
+              <Link
+                className={buttonVariants({ variant: "secondary" })}
+                to="/posts/$id/edit"
+                params={{ id: post.id }}
+              >
+                Edit
+              </Link>
+
+              <DeletePostButton postId={post.id} />
+            </div>
+          )}
         </div>
 
         <div className="prose py-6">

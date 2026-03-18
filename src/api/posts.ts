@@ -19,15 +19,30 @@ const getPost = async (id: string) => {
 };
 
 export const createPost = async (data: { title: string; content: string }) => {
-  const response = await apiClient.post("/posts", data);
+  const response = await apiClient.post<{ id: string }>("/posts", data);
+  return response.data;
+};
+
+export const updatePost = async (data: {
+  id: string;
+  title: string;
+  content: string;
+}) => {
+  const response = await apiClient.patch(`/posts/${data.id}`, data);
+  return response.data;
+};
+
+export const deletePost = async (id: string) => {
+  const response = await apiClient.delete(`/posts/${id}`);
   return response.data;
 };
 
 export const postQueries = {
   all: () => ["posts"],
+  lists: () => [...postQueries.all(), "list"],
   list: (params: Omit<Parameters<typeof getPosts>[0], "page">) =>
     infiniteQueryOptions({
-      queryKey: [...postQueries.all(), "list", { params }],
+      queryKey: [...postQueries.lists(), { params }],
       queryFn: ({ pageParam }) => {
         return getPosts({
           queryTerm: params.queryTerm,
@@ -39,7 +54,6 @@ export const postQueries = {
         if (lastPage.length === 0) {
           return undefined;
         }
-        console.log(lastPage);
         return lastPageParam + 1;
       },
       select: (data) => data.pages.flatMap((page) => page),
