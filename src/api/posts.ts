@@ -1,11 +1,13 @@
 import { apiClient } from "@/lib/api-client";
-import { queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import type { Post } from "./models";
 
-const getPosts = async (queryTerm?: string) => {
+const getPosts = async (params: { queryTerm: string; page: number }) => {
   const response = await apiClient.get<Post[]>("/posts", {
     params: {
-      q: queryTerm || undefined,
+      q: params.queryTerm || undefined,
+      page: params.page,
+      limit: 10,
     },
   });
   return response.data;
@@ -16,12 +18,31 @@ const getPost = async (id: string) => {
   return response.data;
 };
 
+export const createPost = async (data: { title: string; content: string }) => {
+  const response = await apiClient.post("/posts", data);
+  return response.data;
+};
+
 export const postQueries = {
   all: () => ["posts"],
-  list: (queryTerm: Parameters<typeof getPosts>[0]) =>
-    queryOptions({
-      queryKey: [...postQueries.all(), "list", { queryTerm }],
-      queryFn: () => getPosts(queryTerm),
+  list: (params: Omit<Parameters<typeof getPosts>[0], "page">) =>
+    infiniteQueryOptions({
+      queryKey: [...postQueries.all(), "list", { params }],
+      queryFn: ({ pageParam }) => {
+        return getPosts({
+          queryTerm: params.queryTerm,
+          page: pageParam,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+        if (lastPage.length === 0) {
+          return undefined;
+        }
+        console.log(lastPage);
+        return lastPageParam + 1;
+      },
+      select: (data) => data.pages.flatMap((page) => page),
     }),
   details: (id: string) =>
     queryOptions({

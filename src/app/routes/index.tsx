@@ -1,11 +1,20 @@
+import z from "zod";
 import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { postQueries } from "@/api/posts";
 import { FeedPage } from "@/pages/feed/feed-page";
-import { defaultValues, searchSchema } from "@/pages/feed/lib/constants";
+
+export const defaultValues = {
+  q: "",
+};
 
 export const Route = createFileRoute("/")({
   component: FeedPage,
-  validateSearch: searchSchema,
+  validateSearch: z.object({
+    q: z.string().default(defaultValues.q).catch(defaultValues.q),
+  }),
+  errorComponent: ({ error }) => {
+    return <div>Error: {error.message}</div>;
+  },
   search: {
     middlewares: [stripSearchParams(defaultValues)],
   },
@@ -15,6 +24,8 @@ export const Route = createFileRoute("/")({
     };
   },
   loader: ({ context, deps }) => {
-    return context.queryClient.ensureQueryData(postQueries.list(deps.q));
+    return context.queryClient.ensureInfiniteQueryData(
+      postQueries.list({ queryTerm: deps.q }),
+    );
   },
 });

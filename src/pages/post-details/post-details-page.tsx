@@ -1,7 +1,12 @@
-import { postQueries } from "@/api/posts";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { getRouteApi, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon } from "lucide-react";
+import { postQueries } from "@/api/posts";
+import { timeAgo } from "@/lib/date";
+import Markdown from "react-markdown";
+
+import { PostReactions } from "@/components/post-reactions/post-reactions";
+import { UserAvatar } from "@/components/user-avatar";
 
 const routeApi = getRouteApi("/posts/$id");
 
@@ -11,11 +16,42 @@ export const PostDetailsPage = () => {
 
   return (
     <div>
-      <Link to="/" className="inline-flex items-center gap-2">
-        <ArrowLeftIcon />
+      <Link
+        to="/"
+        className="hover:text-muted-foreground inline-flex items-center gap-2 text-sm transition-colors"
+      >
+        <ArrowLeftIcon className="size-3.5" />
         <span>Back</span>
       </Link>
-      <pre>{JSON.stringify(post, null, 2)}</pre>
+
+      <div className="divide-y">
+        <div className="space-y-5 py-6">
+          <div className="flex items-center gap-3">
+            <UserAvatar seed={post.user.image} />
+            <div>
+              <p className="text-foreground text-sm">{post.user.name}</p>
+              <p className="text-muted-foreground text-xs">
+                {timeAgo(post.createdAt)}
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <h1>{post.title}</h1>
+            <p className="text-muted-foreground bg-muted w-fit rounded px-2 py-0.5 text-xs">
+              #tag
+            </p>
+          </div>
+        </div>
+
+        <div className="prose py-6">
+          <Markdown>{post.content}</Markdown>
+        </div>
+
+        <div className="space-y-2 py-6">
+          <PostReactions post={post} />
+        </div>
+      </div>
     </div>
   );
 };

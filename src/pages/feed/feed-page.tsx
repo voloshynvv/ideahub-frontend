@@ -1,37 +1,26 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { postQueries } from "@/api/posts";
-import { SearchInput } from "./components/search-input";
-import { PlusIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { getRouteApi } from "@tanstack/react-router";
-import { EmptyState } from "./components/search-states";
+import { Link } from "@tanstack/react-router";
+import { useCurrentUser } from "@/api/auth";
 
-const routeApi = getRouteApi("/");
+import { buttonVariants } from "@/components/ui/button";
+import { PostsList } from "./components/posts-list";
+import { SearchInput } from "./components/search-input";
 
 export const FeedPage = () => {
-  const params = routeApi.useSearch();
-  const { data: posts } = useSuspenseQuery(postQueries.list(params.q));
+  const user = useCurrentUser();
 
   return (
     <div className="flex gap-10 py-4">
       <div className="flex-1 space-y-6">
         <div className="flex items-center justify-end gap-2">
           <SearchInput />
-          <Button>
-            <PlusIcon />
-            Create
-          </Button>
+          {user && (
+            <Link to="/posts/new" className={buttonVariants()}>
+              Create
+            </Link>
+          )}
         </div>
 
-        {posts.length === 0 && <EmptyState />}
-
-        {posts.length > 0 && (
-          <div>
-            {posts.map((post) => (
-              <div>{post.title}</div>
-            ))}
-          </div>
-        )}
+        <PostsList />
       </div>
 
       <div className="w-40">tags</div>
