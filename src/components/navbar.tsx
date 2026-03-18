@@ -1,21 +1,23 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { currentUserOptions, useCurrentUser } from "@/api/auth";
+import { authClient } from "@/lib/auth-client";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { AuthDialog } from "@/components/auth/auth-dialog";
 import { Button } from "@/components/ui/button";
-import { currentUserOptions, useCurrentUser } from "@/api/auth";
 import { UserAvatar } from "./user-avatar";
-import { authClient } from "@/lib/auth-client";
-import { useQueryClient } from "@tanstack/react-query";
 
 export const Navbar = () => {
   const user = useCurrentUser();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     authClient.signOut({
       fetchOptions: {
-        onSuccess: () => {
-          queryClient.invalidateQueries(currentUserOptions());
+        onSuccess: async () => {
+          await queryClient.invalidateQueries(currentUserOptions());
+          navigate({ to: "/", replace: true });
         },
       },
     });
@@ -25,7 +27,7 @@ export const Navbar = () => {
     <header className="flex items-center justify-between gap-4 py-6">
       <div>
         <Link to="/" className="text-2xl font-bold">
-          IdeasHub
+          IdeaHub
         </Link>
         <p className="text-muted-foreground text-sm">
           Thoughts worth thinking about.

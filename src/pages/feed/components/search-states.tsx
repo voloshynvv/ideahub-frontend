@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
@@ -11,15 +9,11 @@ export const EmptyState = () => {
   return (
     <Empty>
       <EmptyHeader>
-        <EmptyTitle>No data found</EmptyTitle>
+        <EmptyTitle>No ideas found</EmptyTitle>
         <EmptyDescription>
-          If you would like to say something click the button below to share
-          your thoughts.
+          If you would like to say something sign in and share your thoughts.
         </EmptyDescription>
       </EmptyHeader>
-      <EmptyContent>
-        <Button>Share your first idea</Button>
-      </EmptyContent>
     </Empty>
   );
 };

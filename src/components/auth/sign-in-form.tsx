@@ -27,11 +27,7 @@ const signInSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-interface SignInFormProps {
-  onSuccess?: () => void;
-}
-
-export const SignInForm = ({ onSuccess }: SignInFormProps) => {
+export const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const queryClient = useQueryClient();
@@ -56,7 +52,6 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
         },
         onSuccess: () => {
           queryClient.invalidateQueries(currentUserOptions());
-          onSuccess?.();
         },
         onError: ({ error }) => {
           setErrorMessage(error.message);

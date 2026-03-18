@@ -41,11 +41,7 @@ const signUpSchema = z
     message: "Passwords do not match",
   });
 
-interface SignUpFormProps {
-  onSignedUp?: () => void;
-}
-
-export const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
+export const SignUpForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const queryClient = useQueryClient();
@@ -75,7 +71,6 @@ export const SignUpForm = ({ onSignedUp }: SignUpFormProps) => {
         },
         onSuccess: () => {
           queryClient.invalidateQueries(currentUserOptions());
-          onSignedUp?.();
         },
         onError: ({ error }) => {
           setErrorMessage(error.message);

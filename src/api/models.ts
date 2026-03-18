@@ -20,3 +20,13 @@ export interface Reaction {
   count: number;
   hasReacted: boolean;
 }
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+  emailVerified: boolean;
+  updatedAt: string;
+  createdAt: string;
+}

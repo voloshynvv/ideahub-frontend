@@ -62,7 +62,7 @@ export const PostDetailsPage = () => {
           )}
         </div>
 
-        <div className="prose py-6">
+        <div className="prose max-w-full py-6">
           <Markdown>{post.content}</Markdown>
         </div>
 

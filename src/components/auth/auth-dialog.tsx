@@ -45,11 +45,7 @@ export const AuthDialog = ({ children, ...props }: AuthDialogProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        {activeForm === "signIn" ? (
-          <SignInForm />
-        ) : (
-          <SignUpForm onSignedUp={() => setOpen(false)} />
-        )}
+        {activeForm === "signIn" ? <SignInForm /> : <SignUpForm />}
       </DialogContent>
     </Dialog>
   );
