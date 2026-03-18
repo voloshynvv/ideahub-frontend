@@ -1,6 +1,7 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
-import { Providers } from "@/app/providers";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/navbar";
 
 interface RootContext {
@@ -21,5 +22,14 @@ function RootLayout() {
         </main>
       </div>
     </Providers>
+  );
+}
+
+function Providers({ children }: React.PropsWithChildren) {
+  return (
+    <TooltipProvider>
+      {children}
+      <ReactQueryDevtools />
+    </TooltipProvider>
   );
 }

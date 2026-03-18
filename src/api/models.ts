@@ -4,13 +4,19 @@ export interface Post {
   description: string;
   content: string;
   user: User;
-  reactions: Record<string, number>;
+  reactions: Reaction[];
   createdAt: string;
   updatedAt: string;
 }
 
-interface User {
+export interface User {
   id: string;
   name: string;
   image: string | null;
+}
+
+export interface Reaction {
+  name: string;
+  count: number;
+  hasReacted: boolean;
 }
