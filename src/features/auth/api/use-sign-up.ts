@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
 import { sessionOptions } from "@/lib/session";
 import { useRouter } from "@tanstack/react-router";
-import { useRequireAuth } from "@/context/require-auth-provider";
+import { useRequireAuth } from "@/context/require-auth";
 
 export const useSignUp = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Post } from "@/types/model";
-import { useRequireAuth } from "@/context/require-auth-provider";
+import { useRequireAuth } from "@/context/require-auth";
 
 import { Button } from "@/components/ui/button";
 import { ReactionPicker } from "./reaction-picker";

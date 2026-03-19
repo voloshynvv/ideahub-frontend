@@ -3,7 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
 import { sessionOptions } from "@/lib/session";
-import { useRequireAuth } from "@/context/require-auth-provider";
+import { useRequireAuth } from "@/context/require-auth";
 import { postQueries } from "@/features/posts";
 
 export const useSignIn = () => {

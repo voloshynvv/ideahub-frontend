@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useAuthUser } from "@/lib/session";
-import { useRequireAuth } from "@/context/require-auth-provider";
+import { useRequireAuth } from "@/context/require-auth";
 
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/common/user-avatar";
