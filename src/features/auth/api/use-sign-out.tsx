@@ -7,13 +7,13 @@ export const useSignOut = () => {
   const navigate = useNavigate();
   const router = useRouter();
 
-  const signOut = () => {
-    authClient.signOut({
+  const signOut = async () => {
+    await authClient.signOut({
       fetchOptions: {
         onSuccess: async () => {
           queryClient.clear();
+          navigate({ to: "/" });
           router.invalidate();
-          navigate({ to: "/", replace: true });
         },
       },
     });
