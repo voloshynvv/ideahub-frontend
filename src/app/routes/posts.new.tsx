@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { NewPostPage } from "@/pages/new-post/new-post-page";
+import { NewPostPage } from "@/features/posts";
 
 export const Route = createFileRoute("/posts/new")({
   beforeLoad: ({ context }) => {

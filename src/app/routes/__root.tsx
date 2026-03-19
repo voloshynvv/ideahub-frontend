@@ -1,11 +1,12 @@
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { currentUserOptions } from "@/api/auth";
-import type { AuthUser } from "@/api/models";
+import { sessionOptions } from "@/lib/session";
+import type { AuthUser } from "@/types/model";
+import { RequireAuthProvider } from "@/context/require-auth-provider";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/layout/navbar";
 import { NotFoundFallback } from "@/components/fallbacks/not-found-fallback";
 import { ErrorFallback } from "@/components/fallbacks/error-fallback";
 
@@ -17,8 +18,7 @@ interface RootContext {
 export const Route = createRootRouteWithContext<RootContext>()({
   component: RootLayout,
   beforeLoad: async ({ context }) => {
-    const user =
-      await context.queryClient.ensureQueryData(currentUserOptions());
+    const user = await context.queryClient.ensureQueryData(sessionOptions());
     return { user };
   },
   errorComponent: ErrorFallback,
@@ -27,21 +27,15 @@ export const Route = createRootRouteWithContext<RootContext>()({
 
 function RootLayout() {
   return (
-    <Providers>
-      <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-6">
-        <Navbar />
-        <main className="flex flex-1 flex-col">
-          <Outlet />
-        </main>
-      </div>
-    </Providers>
-  );
-}
-
-function Providers({ children }: React.PropsWithChildren) {
-  return (
     <TooltipProvider>
-      {children}
+      <RequireAuthProvider>
+        <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-6">
+          <Navbar />
+          <main className="flex flex-1 flex-col py-10">
+            <Outlet />
+          </main>
+        </div>
+      </RequireAuthProvider>
       <ReactQueryDevtools />
     </TooltipProvider>
   );

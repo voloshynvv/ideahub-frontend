@@ -1,7 +1,6 @@
-import { postQueries } from "@/api/posts";
-import { EditPostPage } from "@/pages/edit-post/edit-post-page";
 import { isNotFound, notFound } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
+import { EditPostPage, postQueries } from "@/features/posts";
 
 export const Route = createFileRoute("/posts_/$id/edit")({
   loader: async ({ context, params }) => {

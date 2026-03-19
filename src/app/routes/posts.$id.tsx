@@ -1,6 +1,5 @@
-import { postQueries } from "@/api/posts";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { PostDetailsPage } from "@/pages/post-details/post-details-page";
+import { PostDetailsPage, postQueries } from "@/features/posts";
 
 export const Route = createFileRoute("/posts/$id")({
   loader: async ({ context, params }) => {
@@ -8,6 +7,7 @@ export const Route = createFileRoute("/posts/$id")({
       const post = await context.queryClient.ensureQueryData(
         postQueries.details(params.id),
       );
+
       return { post };
     } catch {
       throw notFound();
