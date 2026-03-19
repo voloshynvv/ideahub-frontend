@@ -36,7 +36,10 @@ export const EditPostPage = () => {
     <PostEditor
       isLoading={updatePost.isPending}
       onSubmit={handleSubmit}
-      initialValues={post}
+      initialValues={{
+        ...post,
+        tag: post.tag ?? "",
+      }}
     />
   );
 };
