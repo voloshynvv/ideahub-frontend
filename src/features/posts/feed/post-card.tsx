@@ -22,18 +22,21 @@ export const PostCard = ({ post }: PostCardProps) => {
         </span>
       </div>
 
-      <Link
-        className="hover:before:bg-muted-foreground/5 mb-3 block before:absolute before:inset-0 before:transition-colors"
-        to="/posts/$id"
-        params={{ id: post.id }}
-      >
-        <p className="text-lg leading-relaxed">{post.title}</p>
-      </Link>
+      <div className="space-y-3">
+        <Link
+          className="hover:before:bg-muted-foreground/5 block before:absolute before:inset-0 before:transition-colors"
+          to="/posts/$id"
+          params={{ id: post.id }}
+        >
+          <p className="text-lg leading-relaxed">{post.title}</p>
+        </Link>
 
-      {post.tag && (
-        <p className="text-muted-foreground mb-3 text-xs">#{post.tag}</p>
-      )}
-      <PostReactions post={post} />
+        {post.tag && (
+          <p className="text-muted-foreground text-xs">#{post.tag}</p>
+        )}
+
+        <PostReactions post={post} />
+      </div>
     </article>
   );
 };
