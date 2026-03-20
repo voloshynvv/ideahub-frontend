@@ -1,4 +1,3 @@
-import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/types/model";
 import { useRequireAuth } from "@/context/require-auth";
@@ -13,10 +12,7 @@ interface PostReactionsProps {
 
 export const PostReactions = ({ post }: PostReactionsProps) => {
   const { runIfAuthenticated } = useRequireAuth();
-  const { toggle, isPending, isAnyPending } = useToggleReaction(post.id);
-
-  const reactionRowPending = post.reactions.some((r) => isPending(r.name));
-  const pickerLoading = isAnyPending && !reactionRowPending;
+  const { toggle } = useToggleReaction(post.id);
 
   return (
     <div className="isolate flex w-fit items-center gap-1.5">
@@ -28,7 +24,6 @@ export const PostReactions = ({ post }: PostReactionsProps) => {
             reaction.hasReacted && "bg-muted text-foreground border-dashed",
           )}
           variant="outline"
-          disabled={isPending(reaction.name)}
           onClick={() => {
             runIfAuthenticated(() => {
               toggle(reaction);
@@ -41,25 +36,22 @@ export const PostReactions = ({ post }: PostReactionsProps) => {
             src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${reaction.name}.png`}
             alt={reaction.name}
           />
-          <span>
-            {isPending(reaction.name) ? (
-              <Loader2 className="size-3 animate-spin" />
-            ) : (
-              reaction.count
-            )}
-          </span>
+          <span>{reaction.count}</span>
         </Button>
       ))}
 
       <ReactionPicker
         onReactionClick={(data) => {
           runIfAuthenticated(() => {
-            toggle({ name: data.unified, hasReacted: false });
+            toggle({
+              name: data.unified,
+              hasReacted:
+                post.reactions.find((r) => r.name === data.unified)
+                  ?.hasReacted ?? false,
+            });
           });
         }}
       />
-
-      {pickerLoading && <Loader2 className="size-3 animate-spin" />}
     </div>
   );
 };

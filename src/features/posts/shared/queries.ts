@@ -61,7 +61,7 @@ export const postQueries = {
   lists: () => [...postQueries.all(), "list"],
   list: (params: GetPostsParams) =>
     infiniteQueryOptions({
-      queryKey: [...postQueries.lists(), { params }],
+      queryKey: [...postQueries.lists(), params],
       queryFn: ({ pageParam }) => {
         return getPosts({
           queryTerm: params.queryTerm,
