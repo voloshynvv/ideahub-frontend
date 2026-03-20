@@ -52,39 +52,29 @@ export const PostEditor = ({
 
   return (
     <form className="flex flex-1 flex-col" onSubmit={handleSubmit}>
-      <div className="flex flex-wrap justify-between gap-10">
-        <div className="mb-10">
-          <label className="sr-only" htmlFor="title">
-            Title
-          </label>
-          <input
-            id="title"
-            className="mb-4 block w-full text-2xl focus-visible:outline-none"
-            value={title}
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
+      <div className="mb-10">
+        <label className="sr-only" htmlFor="title">
+          Title
+        </label>
+        <input
+          id="title"
+          className="mb-4 block w-full text-2xl focus-visible:outline-none"
+          value={title}
+          placeholder="Title"
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-          <label className="sr-only" htmlFor="tag">
-            Tag
-          </label>
-          <input
-            id="tag"
-            type="text"
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
-            className="block text-sm focus-visible:outline-none"
-            placeholder="Tag"
-          />
-        </div>
-        <Button
-          disabled={!title || !content || isLoading}
-          loading={isLoading}
-          type="submit"
-          className="w-fit"
-        >
-          {buttonText}
-        </Button>
+        <label className="sr-only" htmlFor="tag">
+          Tag
+        </label>
+        <input
+          id="tag"
+          type="text"
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+          className="block w-full text-sm focus-visible:outline-none"
+          placeholder="Tag"
+        />
       </div>
 
       <Tabs className="flex flex-1 flex-col gap-4">
@@ -110,6 +100,14 @@ export const PostEditor = ({
           </div>
         </TabsContent>
       </Tabs>
+
+      <Button
+        disabled={!title || !content || isLoading}
+        loading={isLoading}
+        type="submit"
+      >
+        {buttonText}
+      </Button>
     </form>
   );
 };

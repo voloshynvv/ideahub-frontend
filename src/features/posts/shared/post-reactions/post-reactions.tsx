@@ -1,3 +1,4 @@
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/types/model";
 import { useRequireAuth } from "@/context/require-auth";
@@ -12,7 +13,10 @@ interface PostReactionsProps {
 
 export const PostReactions = ({ post }: PostReactionsProps) => {
   const { runIfAuthenticated } = useRequireAuth();
-  const { toggle, isPending } = useToggleReaction(post.id);
+  const { toggle, isPending, isAnyPending } = useToggleReaction(post.id);
+
+  const reactionRowPending = post.reactions.some((r) => isPending(r.name));
+  const pickerLoading = isAnyPending && !reactionRowPending;
 
   return (
     <div className="isolate flex w-fit items-center gap-1.5">
@@ -37,7 +41,13 @@ export const PostReactions = ({ post }: PostReactionsProps) => {
             src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${reaction.name}.png`}
             alt={reaction.name}
           />
-          <span className="">{reaction.count}</span>
+          <span>
+            {isPending(reaction.name) ? (
+              <Loader2 className="size-3 animate-spin" />
+            ) : (
+              reaction.count
+            )}
+          </span>
         </Button>
       ))}
 
@@ -48,6 +58,8 @@ export const PostReactions = ({ post }: PostReactionsProps) => {
           });
         }}
       />
+
+      {pickerLoading && <Loader2 className="size-3 animate-spin" />}
     </div>
   );
 };

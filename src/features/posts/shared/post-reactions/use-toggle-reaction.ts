@@ -58,8 +58,11 @@ export const useToggleReaction = (postId: string) => {
     );
   };
 
+  const isAnyPending = addReaction.isPending || removeReaction.isPending;
+
   return {
     toggle,
     isPending,
+    isAnyPending,
   };
 };

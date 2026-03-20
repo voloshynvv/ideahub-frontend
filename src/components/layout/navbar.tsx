@@ -16,14 +16,14 @@ export const Navbar = () => {
         <Link to="/" className="text-2xl font-bold">
           IdeaHub
         </Link>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground hidden text-sm md:block">
           Thoughts worth thinking about.
         </p>
       </div>
 
       {user ? (
         <div className="flex items-center gap-5">
-          <Link className="flex items-center gap-3" to="/">
+          <Link className="hidden items-center gap-3 md:flex" to="/">
             <p>Hi,{user.name}</p>
             <UserAvatar seed={user.name} />
           </Link>

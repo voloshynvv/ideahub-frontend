@@ -25,7 +25,7 @@ export const Route = createRootRouteWithContext<RootContext>()({
 function RootLayout() {
   return (
     <AppProviders>
-      <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-6">
+      <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-4 md:px-6">
         <Navbar />
         <main className="flex flex-1 flex-col py-10">
           <Outlet />
