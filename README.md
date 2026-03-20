@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# IdeaHub Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimalist app for sharing ideas and exploring a community feed.
 
-Currently, two official plugins are available:
+## Links
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Live Site: https://ideahub-frontend-617u.onrender.com
+- Backend/API Repo: https://github.com/voloshynvv/ideahub-backend
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## The Challenge
 
-## Expanding the ESLint configuration
+The goal of this project is to build a lightweight yet practical frontend that reflects real-world application workflows.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+It includes `authentication`, `protected routes`, `authorized actions`, `optimistic UI updates`, and a `feature-based folder structure` for scalability and maintainability.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+With this app, users can:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- browse a paginated feed of posts
+- search posts by keyword
+- create an account and sign in
+- open full post details
+- react to posts with emojis
+- edit or delete their own posts
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+
+## Built With
+
+- React
+- TypeScript
+- TanStack Router
+- TanStack Query
+- Tailwind
+- Better Auth
+- Axios
+- Zod
+
+
+## Folder Structure
+
+```text
+src/
+  app/          # routing, providers, app-level setup
+  components/   # shared UI and layout components
+  features/     # feature-based modules like auth and posts
+  lib/          # utilities, API client, auth client, date helpers
+  types/        # api models
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Create environment variables
+
+Copy `.env.example` into `.env` and provide the required values:
+
+```env
+VITE_API_BASE_URL=
+VITE_AUTH_BASE_URL=
+```
+
+### 3. Start the development server
+
+```bash
+npm run dev
+```
+
+### 4. Build for production
+
+```bash
+npm run build
 ```
