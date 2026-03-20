@@ -1,8 +1,4 @@
-import {
-  type InfiniteData,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Post, Reaction } from "@/types/model";
 import { apiClient } from "@/lib/api-client";
 import { postQueries } from "@/features/posts/shared/queries";
@@ -54,29 +50,24 @@ export const useToggleReaction = (postId: string) => {
       // cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: postQueries.all() });
 
-      // snapshot the previous values
-      const prevPosts = queryClient.getQueryData<InfiniteData<Post[]>>(
-        postQueries.list({ queryTerm }).queryKey,
-      );
-      const prevPost = queryClient.getQueryData<Post>(
-        postQueries.details(postId).queryKey,
-      );
-
       // optimistically update to the new value
-      queryClient.setQueryData<InfiniteData<Post[]>>(
+      queryClient.setQueryData(
         postQueries.list({ queryTerm }).queryKey,
         (data) => {
           if (!data?.pages) return data;
 
           return {
             ...data,
-            pages: data.pages.map((page) =>
-              page.map((post) =>
-                post.id !== postId
-                  ? post
-                  : applyReaction(post, { name, hasReacted }),
-              ),
-            ),
+            pages: data.pages.map((page) => {
+              return {
+                ...page,
+                posts: page.posts.map((post) =>
+                  post.id !== postId
+                    ? post
+                    : applyReaction(post, { name, hasReacted }),
+                ),
+              };
+            }),
           };
         },
       );
@@ -85,21 +76,7 @@ export const useToggleReaction = (postId: string) => {
         if (!data) return data;
         return applyReaction(data, { name, hasReacted });
       });
-
-      return { prevPost, prevPosts };
     },
-    // rollback to the previous value
-    onError: (_err, _vars, context) => {
-      queryClient.setQueryData(
-        postQueries.details(postId).queryKey,
-        context?.prevPost,
-      );
-      queryClient.setQueryData(
-        postQueries.list({ queryTerm }).queryKey,
-        context?.prevPosts,
-      );
-    },
-    // refetch
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: postQueries.all() }),
   });

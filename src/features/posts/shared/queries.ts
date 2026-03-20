@@ -11,12 +11,18 @@ export interface GetPostsParams {
   queryTerm?: string;
 }
 
+const PAGE_LIMIT = 10;
+
 const getPosts = async (params: GetPostsParams & { page: number }) => {
-  const response = await apiClient.get<Post[]>("/posts", {
+  const response = await apiClient.get<{
+    posts: Post[];
+    page: number;
+    pages: number;
+  }>("/posts", {
     params: {
       q: params.queryTerm || undefined,
       page: params.page,
-      limit: 10,
+      limit: PAGE_LIMIT,
     },
   });
   return response.data;
@@ -70,7 +76,7 @@ export const postQueries = {
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-        if (lastPage.length === 0) {
+        if (lastPage.pages <= lastPage.page) {
           return undefined;
         }
         return lastPageParam + 1;

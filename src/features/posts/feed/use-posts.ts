@@ -14,7 +14,7 @@ export const usePosts = ({ queryTerm }: GetPostsParams) => {
     hasNextPage,
   } = useSuspenseInfiniteQuery({
     ...postQueries.list({ queryTerm }),
-    select: (data) => data.pages.flatMap((page) => page),
+    select: (data) => data.pages.flatMap((page) => page.posts),
   });
 
   const { ref, inViewport } = useInViewport();
@@ -25,5 +25,5 @@ export const usePosts = ({ queryTerm }: GetPostsParams) => {
     }
   }, [inViewport, fetchNextPage, hasNextPage]);
 
-  return { posts, ref };
+  return { posts, ref, hasNextPage };
 };
