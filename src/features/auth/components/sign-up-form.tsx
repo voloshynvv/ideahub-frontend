@@ -165,7 +165,7 @@ export const SignUpForm = () => {
         </FieldGroup>
       </div>
 
-      <Button disabled={isLoading} type="submit">
+      <Button disabled={isLoading} loading={isLoading} type="submit">
         Create account
       </Button>
     </form>

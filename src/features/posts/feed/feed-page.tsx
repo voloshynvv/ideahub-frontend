@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import { Link } from "@tanstack/react-router";
 import { useAuthUser } from "@/lib/session";
 
 import { buttonVariants } from "@/components/ui/button";
-import { PostList } from "./post-list";
+import { LoadingState, PostList } from "./post-list";
 import { SearchInput } from "./search-input";
 
 export const FeedPage = () => {
@@ -21,7 +22,9 @@ export const FeedPage = () => {
           )}
         </div>
 
-        <PostList />
+        <Suspense fallback={<LoadingState />}>
+          <PostList />
+        </Suspense>
       </div>
     </div>
   );

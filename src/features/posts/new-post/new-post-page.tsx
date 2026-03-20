@@ -1,14 +1,13 @@
 import { useNavigate } from "@tanstack/react-router";
-
 import {
   PostEditor,
   type PostEditorValues,
 } from "@/features/posts/shared/post-editor";
-import { useCreatePost } from "@/features/posts/new-post/use-create-post";
+import { useCreatePost } from "./use-create-post";
 
 export const NewPostPage = () => {
-  const navigate = useNavigate();
   const createPost = useCreatePost();
+  const navigate = useNavigate();
 
   const handleSubmit = (data: PostEditorValues) => {
     createPost.mutate(

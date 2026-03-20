@@ -25,6 +25,7 @@ export const DeletePostButton = ({ postId }: PostDeleteButtonProps) => {
       description="This action cannot be undone."
       actionText="Confirm"
       onAction={handleConfirm}
+      loading={deletePost.isPending}
     >
       <Button variant="destructive">Delete</Button>
     </AppAlertDialog>

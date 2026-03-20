@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
     };
   },
   loader: ({ context, deps }) => {
-    return context.queryClient.ensureInfiniteQueryData(
+    context.queryClient.ensureInfiniteQueryData(
       postQueries.list({ queryTerm: deps.q }),
     );
   },

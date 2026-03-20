@@ -81,7 +81,7 @@ export const SignInForm = () => {
           )}
         />
 
-        <Button disabled={isLoading} type="submit">
+        <Button disabled={isLoading} loading={isLoading} type="submit">
           Login
         </Button>
       </FieldGroup>

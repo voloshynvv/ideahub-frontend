@@ -8,7 +8,11 @@ import {
 } from "@/features/posts/shared/queries";
 
 export const usePosts = ({ queryTerm }: GetPostsParams) => {
-  const { data: posts, fetchNextPage } = useSuspenseInfiniteQuery({
+  const {
+    data: posts,
+    fetchNextPage,
+    hasNextPage,
+  } = useSuspenseInfiniteQuery({
     ...postQueries.list({ queryTerm }),
     select: (data) => data.pages.flatMap((page) => page),
   });
@@ -16,10 +20,10 @@ export const usePosts = ({ queryTerm }: GetPostsParams) => {
   const { ref, inViewport } = useInViewport();
 
   useEffect(() => {
-    if (inViewport) {
+    if (inViewport && hasNextPage) {
       fetchNextPage();
     }
-  }, [inViewport, fetchNextPage]);
+  }, [inViewport, fetchNextPage, hasNextPage]);
 
   return { posts, ref };
 };

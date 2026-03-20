@@ -79,6 +79,7 @@ export const PostEditor = ({
         </div>
         <Button
           disabled={!title || !content || isLoading}
+          loading={isLoading}
           type="submit"
           className="w-fit"
         >

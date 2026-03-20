@@ -1,15 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postQueries, updatePost } from "@/features/posts/shared/queries";
+import {
+  postQueries,
+  resetInfiniteQueryPagination,
+  updatePost,
+} from "@/features/posts/shared/queries";
 
-export const useUpdatePost = () => {
+export const useUpdatePost = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: updatePost,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: postQueries.all(),
-      });
+      resetInfiniteQueryPagination(queryClient);
+
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: postQueries.lists(),
+        }),
+        queryClient.invalidateQueries(postQueries.details(postId)),
+      ]);
     },
   });
 };

@@ -14,7 +14,7 @@ export const EditPostPage = () => {
   const { id } = routeApi.useParams();
   const navigate = useNavigate();
   const { data: post } = useSuspenseQuery(postQueries.details(id));
-  const updatePost = useUpdatePost();
+  const updatePost = useUpdatePost(id);
 
   const handleSubmit = (values: PostEditorValues) => {
     updatePost.mutate(

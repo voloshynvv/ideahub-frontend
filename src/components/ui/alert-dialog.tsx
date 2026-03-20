@@ -127,12 +127,14 @@ function AlertDialogDescription({
 
 function AlertDialogAction({
   className,
+  loading,
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button> & { loading?: boolean }) {
   return (
     <Button
       data-slot="alert-dialog-action"
       className={cn(className)}
+      loading={loading}
       {...props}
     />
   );
@@ -161,6 +163,7 @@ interface AppAlertDialogProps {
   children: React.ReactElement;
   actionText?: string;
   cancelText?: string;
+  loading?: boolean;
   onAction?: () => void;
   onCancel?: () => void;
 }
@@ -173,6 +176,7 @@ export const AppAlertDialog = ({
   cancelText = "Cancel",
   onAction,
   onCancel,
+  loading,
 }: AppAlertDialogProps) => {
   return (
     <AlertDialog>
@@ -185,7 +189,9 @@ export const AppAlertDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>{cancelText}</AlertDialogCancel>
-          <AlertDialogAction onClick={onAction}>{actionText}</AlertDialogAction>
+          <AlertDialogAction onClick={onAction} loading={loading}>
+            {actionText}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

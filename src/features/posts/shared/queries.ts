@@ -1,4 +1,9 @@
-import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import {
+  infiniteQueryOptions,
+  QueryClient,
+  queryOptions,
+  type InfiniteData,
+} from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import type { Post } from "@/types/model";
 
@@ -39,6 +44,16 @@ export const updatePost = async (
 export const deletePost = async (id: string) => {
   const response = await apiClient.delete(`/posts/${id}`);
   return response.data;
+};
+
+export const resetInfiniteQueryPagination = (queryClient: QueryClient) => {
+  queryClient.setQueriesData(
+    { queryKey: postQueries.lists() },
+    (data: InfiniteData<Post[]>) => ({
+      pageParams: data.pageParams.slice(0, 1),
+      pages: data.pages.slice(0, 1),
+    }),
+  );
 };
 
 export const postQueries = {
