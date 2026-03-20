@@ -1,5 +1,5 @@
 import { getRouteApi } from "@tanstack/react-router";
-
+import { Loader2 } from "lucide-react";
 import {
   Empty,
   EmptyDescription,
@@ -14,7 +14,7 @@ const routeApi = getRouteApi("/");
 
 export const PostList = () => {
   const params = routeApi.useSearch();
-  const { posts, ref } = usePosts({ queryTerm: params.q });
+  const { posts, ref, isFetchingNextPage } = usePosts({ queryTerm: params.q });
 
   if (posts.length === 0) {
     return <EmptyState />;
@@ -27,6 +27,9 @@ export const PostList = () => {
       ))}
 
       <div ref={ref} />
+      {isFetchingNextPage && (
+        <Loader2 className="text-primary mt-8 animate-spin" />
+      )}
     </div>
   );
 };
