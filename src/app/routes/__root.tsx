@@ -6,6 +6,7 @@ import { AppProviders } from "@/app/providers/app-providers";
 import { Navbar } from "@/components/layout/navbar";
 import { NotFoundFallback } from "@/components/fallbacks/not-found-fallback";
 import { ErrorFallback } from "@/components/fallbacks/error-fallback";
+import { Loader2 } from "lucide-react";
 
 interface RootContext {
   queryClient: QueryClient;
@@ -20,6 +21,11 @@ export const Route = createRootRouteWithContext<RootContext>()({
   component: RootLayout,
   errorComponent: ErrorFallback,
   notFoundComponent: NotFoundFallback,
+  pendingComponent: () => (
+    <div className="grid min-h-screen place-content-center">
+      <Loader2 className="text-muted-foreground animate-spin" />
+    </div>
+  ),
 });
 
 function RootLayout() {
