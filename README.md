@@ -4,7 +4,7 @@ A minimalist app for sharing ideas and exploring a community feed.
 
 ## Links
 
-- Live Site: https://ideahub-frontend-617u.onrender.com
+- Live Site: https://ideahub-frontend.vercel.app
 - Backend/API Repo: https://github.com/voloshynvv/ideahub-backend
 
 
